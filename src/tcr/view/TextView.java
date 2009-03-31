@@ -1,9 +1,7 @@
 package tcr.view;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
-import tcr.Code;
 import tcr.CodeParser;
 
 import com.nttdocomo.ui.SoftKeyListener;
@@ -30,15 +28,7 @@ public class TextView extends View {
 	}
 
 	public void update() {
-		box.setText("");
-		if (codes == null) {
-			return;
-		}
-		StringBuffer sb = new StringBuffer();
-		for (Enumeration en = codes.elements(); en.hasMoreElements();) {
-			sb.append(CodeParser.getString((Code) en.nextElement()) + "\n");
-		}
-		box.setText(sb.toString());
+		box.setText(CodeParser.concat(codes, "\n"));
 	}
 }
 

@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import tcr.view.CodeView;
+import tcr.view.DetailView;
 import tcr.view.HelpView;
 import tcr.view.TextView;
 
@@ -25,12 +26,16 @@ public class TinyCodeReader extends IApplication {
 		viewText.setOperator(operator);
 		viewText.setCodes(codes);
 
+		DetailView viewDetail= new DetailView();
+		viewDetail.setOperator(operator);
+
 		HelpView viewHelp = new HelpView();
 		viewHelp.setOperator(operator);
 
 		Hashtable views = new Hashtable();
 		views.put("CodeView", viewCode);
 		views.put("TextView", viewText);
+		views.put("DetailView", viewDetail);
 		views.put("HelpView", viewHelp);
 
 		operator.initialize(views, reader, codes);

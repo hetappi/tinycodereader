@@ -1,5 +1,8 @@
 package tcr;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import com.nttdocomo.device.CodeReader;
 
 public class CodeParser {
@@ -85,5 +88,19 @@ public class CodeParser {
 			break;
 		}
 		return str == null ? "null" : str;
+	}
+
+	public static String concat(Vector codes, String eol) {
+		if (codes == null) {
+			throw new NullPointerException();
+		}
+		if (eol == null) {
+			eol = "";
+		}
+		StringBuffer sb = new StringBuffer();
+		for (Enumeration en = codes.elements(); en.hasMoreElements();) {
+			sb.append(getString((Code) en.nextElement()) + eol);
+		}
+		return sb.toString();
 	}
 }

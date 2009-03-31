@@ -1,5 +1,6 @@
 package tcr.view;
 
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -128,24 +129,41 @@ class CodeViewEventHandler extends EventHandler implements SoftKeyListener,
 	}
 
 	public void keyReleased(Panel panel, int key) {
-		switch (key) {
-		case 1:
-			operator.showTextView();
-			break;
-		case 2:
-			int idx = lstCode.getSelectedIndex();
-			if (idx >= 0) {
-				operator.removeAt(idx);
+		try {
+			switch (key) {
+			case 1:
+				operator.showTextView();
+				break;
+			case 2:
+			{
+				int idx = lstCode.getSelectedIndex();
+				if (idx >= 0) {
+					operator.removeAt(idx);
+				}
+				break;
 			}
-			break;
-		case 3:
-			operator.removeAll();
-			break;
-		case 9:
-			operator.exit();
-			break;
-		default:
-			break;
+			case 3:
+				operator.removeAll();
+				break;
+			case 4:
+			{
+				int idx = lstCode.getSelectedIndex();
+				if (idx >= 0) {
+					operator.showDetailView(idx);
+				}
+				break;
+			}
+			case 5:
+				operator.save();
+				break;
+			case 9:
+				operator.exit();
+				break;
+			default:
+				break;
+			}
+		} catch (IOException e) {
+			operator.error(e);
 		}
 	}
 }

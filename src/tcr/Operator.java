@@ -1,14 +1,21 @@
 package tcr;
 
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import tcr.util.FileUtil;
 import tcr.view.CodeView;
+import tcr.view.DetailView;
 import tcr.view.HelpView;
 import tcr.view.TextView;
 import tcr.view.View;
 
 import com.nttdocomo.device.CodeReader;
+import com.nttdocomo.device.StorageDevice;
+import com.nttdocomo.fs.DoJaAccessToken;
+import com.nttdocomo.fs.DoJaStorageService;
+import com.nttdocomo.fs.Folder;
 import com.nttdocomo.system.InterruptedOperationException;
 import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.IApplication;
@@ -16,6 +23,7 @@ import com.nttdocomo.ui.IApplication;
 public class Operator {
 	private CodeView viewCode;
 	private TextView viewText;
+	private DetailView viewDetail;
 	private HelpView viewHelp;
 
 	private CodeReader reader;
@@ -32,9 +40,19 @@ public class Operator {
 		this.reader = reader;
 		this.codes = codes;
 
-		viewCode = (CodeView)views.get("CodeView");
-		viewText = (TextView)views.get("TextView");
-		viewHelp = (HelpView)views.get("HelpView");
+		if (false) {
+			codes.addElement(CodeParser.parse(CodeReader.TYPE_NUMBER,
+					CodeReader.CODE_JAN13, "1234567890123".getBytes()));
+			codes.addElement(CodeParser.parse(CodeReader.TYPE_NUMBER,
+					CodeReader.CODE_JAN13, "2234567890123".getBytes()));
+			codes.addElement(CodeParser.parse(CodeReader.TYPE_NUMBER,
+					CodeReader.CODE_JAN13, "3234567890123".getBytes()));
+		}
+
+		viewCode = (CodeView) views.get("CodeView");
+		viewText = (TextView) views.get("TextView");
+		viewDetail= (DetailView) views.get("DetailView");
+		viewHelp = (HelpView) views.get("HelpView");
 
 		int[] items = reader.getAvailableCodes();
 		Object formats[][] = new Object[items.length][2];
@@ -76,6 +94,11 @@ public class Operator {
 		setView(viewText);
 	}
 
+	public void showDetailView(int index) {
+		viewDetail.setCode((Code)codes.elementAt(index));
+		setView(viewDetail);
+	}
+
 	public void setView(View view) {
 		view.update();
 		Display.setCurrent(view);
@@ -89,5 +112,13 @@ public class Operator {
 	public void removeAt(int index) {
 		codes.removeElementAt(index);
 		((View) Display.getCurrent()).update();
+	}
+
+	public void save() throws IOException {
+		DoJaAccessToken token = DoJaStorageService.getAccessToken(0,
+				DoJaStorageService.SHARE_APPLICATION);
+		Folder folder = StorageDevice.getInstance("/ext0").getFolder(token);
+		String contents = CodeParser.concat(codes, "\r\n");
+		FileUtil.createNewFile(folder, "codes.txt", contents);
 	}
 }
