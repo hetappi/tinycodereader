@@ -7,7 +7,6 @@ import java.util.Vector;
 import tcr.Code;
 import tcr.CodeParser;
 
-import com.nttdocomo.ui.Dialog;
 import com.nttdocomo.ui.Display;
 import com.nttdocomo.ui.KeyListener;
 import com.nttdocomo.ui.Label;
@@ -58,11 +57,6 @@ public class CodeView extends View {
 		for (Enumeration en = codes.elements(); en.hasMoreElements();) {
 			lstCode.append(CodeParser.getString((Code) en.nextElement()));
 		}
-	}
-
-	public void notifyError(Exception e) {
-		e.printStackTrace();
-		View.showDialog(Dialog.DIALOG_ERROR, "Error", e.getMessage());
 	}
 
 	public void setFormats(Object[][] formats) {
@@ -134,8 +128,7 @@ class CodeViewEventHandler extends EventHandler implements SoftKeyListener,
 			case 1:
 				operator.showTextView();
 				break;
-			case 2:
-			{
+			case 2: {
 				int idx = lstCode.getSelectedIndex();
 				if (idx >= 0) {
 					operator.removeAt(idx);
@@ -145,8 +138,7 @@ class CodeViewEventHandler extends EventHandler implements SoftKeyListener,
 			case 3:
 				operator.removeAll();
 				break;
-			case 4:
-			{
+			case 4: {
 				int idx = lstCode.getSelectedIndex();
 				if (idx >= 0) {
 					operator.showDetailView(idx);

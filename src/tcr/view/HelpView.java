@@ -7,7 +7,7 @@ import com.nttdocomo.ui.SoftKeyListener;
 public class HelpView extends View {
 
 	private final static String[] MENUS = new String[] { "1: Text", "2: Clear",
-			"3: Clear All", "4: Detail", "5: Save" , "9: Exit" };
+			"3: Clear All", "4: Detail", "5: Save", "9: Exit" };
 
 	protected void initialize() {
 		HTMLLayout lm = new HTMLLayout();

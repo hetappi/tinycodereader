@@ -79,7 +79,7 @@ public class Operator {
 	}
 
 	public void error(Exception e) {
-		viewCode.notifyError(e);
+		View.showErrorDialog(e);
 	}
 
 	public void showHelpView() {

@@ -22,6 +22,15 @@ public abstract class View extends Panel {
 		return dialog.show();
 	}
 
+	public static int showErrorDialog(String msg) {
+		return showDialog(Dialog.DIALOG_ERROR, "Error", msg);
+	}
+
+	public static int showErrorDialog(Exception e) {
+		e.printStackTrace();
+		return showErrorDialog(e.getMessage());
+	}
+
 	public void setOperator(Operator operator) {
 		handler.setOperator(operator);
 	}
